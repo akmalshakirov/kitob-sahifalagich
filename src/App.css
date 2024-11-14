@@ -17,16 +17,6 @@ body {
     background-size: 600% 600%;
 }
 
-.background {
-    position: relative;
-    /* width: 100%; */
-    /* height: 1000vh; */
-    /* background: linear-gradient(120deg, #7375ff, #fa5bc1, #44ccfe); */
-    /* display: flex; */
-    align-items: center;
-    justify-content: center;
-}
-
 .shape {
     position: absolute;
     width: 300px;
@@ -99,7 +89,7 @@ body {
 .cursor-following {
     width: 400px;
     height: 400px;
-    filter: blur(100px);
+    filter: blur(70px);
     border-radius: 50%;
     background: linear-gradient(
         45deg,
@@ -110,6 +100,10 @@ body {
     pointer-events: none;
     transition: 10ms ease;
     animation: follow-cursor 1s infinite linear;
+}
+
+.none-follow {
+    display: none;
 }
 
 @keyframes follow-cursor {
@@ -125,15 +119,10 @@ body {
 }
 
 .container {
+    height: 100%;
+    margin-top: 23.5px;
     max-width: 600px;
-    margin: auto;
-    font: 400 20px var(--font-sex);
     padding: 30px;
-    /* background-color: #ffffff; */
-    /* border-radius: 12px; */
-    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); */
-    /* color: #333; */
-
     background: rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -143,7 +132,9 @@ body {
 }
 
 .wrapper {
-    padding-top: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container:hover {
@@ -161,6 +152,7 @@ body {
 .header h1 {
     font-size: 24px;
     font-weight: 600;
+    color: #282830;
 }
 
 .header h1 img {
@@ -179,21 +171,26 @@ body {
 
 .printer-icon button {
     border: none;
-    background-color: transparent;
     cursor: pointer;
-    font-size: 40px;
-    color: #4a90e2;
-    transition: 0.3s ease-in-out;
-    box-sizing: border-box;
-    border: 2px solid transparent;
     border-radius: 10px;
+    background-color: transparent;
 }
 
-.printer-icon button:active {
+.printer-icon button img {
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    border: 2px solid transparent;
+    /* width: 60px; */
+    /* height: 60px; */
+    padding: 10px;
+    object-fit: cover;
+}
+
+.printer-icon button img:active {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.printer-icon button:hover {
+.printer-icon button img:hover {
     border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
@@ -237,10 +234,11 @@ input::-webkit-inner-spin-button {
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.3);
     background: rgba(255, 255, 255, 0.3);
-
     transition: 0.3s;
     padding: 10px;
     margin-top: 20px;
+    width: 125%;
+    transform: translateX(-109px);
 }
 
 .format-section:hover {
@@ -343,7 +341,7 @@ input[type="radio"]:checked + label::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #888;
+    color: #00000099;
     font-size: 17px;
     margin-top: 11px;
     padding-top: 11px;
@@ -394,8 +392,104 @@ input[type="radio"]:checked + label::before {
     transform: scale(1);
 }
 
-.footer img {
+.limon-logotip {
     width: 88px;
-    height: auto;
     object-fit: cover;
+}
+
+@media (max-width: 1360px) {
+    .cursor-following {
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .shape1,
+    .shape2,
+    .shape3 {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        max-width: 95%;
+        margin-bottom: 20px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .form-section {
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .format-section {
+        width: 100%;
+        transform: translateX(0);
+    }
+
+    .form-inputs {
+        width: 100%;
+    }
+
+    .footer {
+        font-size: 14px;
+    }
+
+    .page-sides {
+        flex-direction: column;
+    }
+
+    .side h3 {
+        font-size: 13px;
+    }
+
+    .side textarea {
+        font-size: 12px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .form-inputs input[type="number"] {
+        padding: 8px;
+    }
+
+    .format-section h3 {
+        font-size: 14px;
+    }
+
+    .format-section label {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .footer {
+        font-size: 12px;
+    }
+
+    .side textarea {
+        font-size: 11px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 360px) {
+    .format-section {
+        display: flex;
+        flex-direction: column;
+    }
 }

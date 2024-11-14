@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from "react";
+import limonLogo from "../Images/limon.png";
 
 const PageLayout = () => {
     const [startPage, setStartPage] = useState("");
     const [endPage, setEndPage] = useState("");
     const [format, setFormat] = useState("book");
+    const [isDevToolsOpen, setIsDevToolsOpen] = useState(false);
 
-    // (function () {
-    //     let devtoolsOpen = false;
-    //     const threshold = 160;
+    const handleMouseLeave = (e) => {
+        // setIsMouseLeave(true);
+        e.classList.add("none-follow");
+    };
 
-    //     setInterval(function () {
-    //         const widthThreshold =
-    //             window.outerWidth - window.innerWidth > threshold;
-    //         const heightThreshold =
-    //             window.outerHeight - window.innerHeight > threshold;
+    const handleMouseEnter = () => {
+        setIsMouseLeave(false);
+    };
 
-    //         if ((widthThreshold || heightThreshold) && !devtoolsOpen) {
-    //             devtoolsOpen = true;
-    //             document.body.style.overflow = "visible";
-    //         } else if (!widthThreshold && !heightThreshold && devtoolsOpen) {
-    //             devtoolsOpen = false;
-    //             document.body.style.overflow = "hidden";
-    //         }
-    //     }, 100);
-    // })();
+    useEffect(() => {
+        const checkDevToolsOpen = () => {
+            const devToolsOpen =
+                window.outerWidth - window.innerWidth > 100 ||
+                window.outerHeight - window.innerHeight > 100;
+            setIsDevToolsOpen(devToolsOpen);
+        };
+
+        window.addEventListener("resize", checkDevToolsOpen);
+
+        checkDevToolsOpen();
+
+        return () => window.removeEventListener("resize", checkDevToolsOpen);
+    }, []);
 
     const [cursorPosition, setCursorPosition] = useState({ x: -200, y: -200 });
 
@@ -44,7 +50,11 @@ const PageLayout = () => {
             <div className='shape shape2'></div>
             <div className='shape shape3'></div>
             <div
-                className='cursor-following'
+                className={`cursor-following ${
+                    isDevToolsOpen ? "none-follow" : ""
+                }`}
+                onMouseLeave={handleMouseLeave}
+                onMouseEnter={handleMouseEnter}
                 style={{
                     left: `${cursorPosition.x}px`,
                     top: `${cursorPosition.y}px`,
@@ -62,7 +72,10 @@ const PageLayout = () => {
 
                 <div className='form-section'>
                     <div className='printer-icon'>
-                        <button>🖨️</button>
+                        {/* <button>🖨️</button> */}
+                        <button>
+                            <img src='src/Images/printer.png' alt='printer' />
+                        </button>
                     </div>
                     <div className='form-inputs'>
                         <label>
@@ -111,8 +124,9 @@ const PageLayout = () => {
                 </div>
 
                 <div className='warning'>
+                    <img src='src/Images/warning.png' alt='warning' />
                     <b>
-                        ⚠️ Eslatma: Kitobcha shakliga keltirish uchun sahifalar
+                        Eslatma: Kitobcha shakliga keltirish uchun sahifalar
                         soni 4 ga bo'linadigan bo'lishi shart!
                     </b>
                 </div>
@@ -129,11 +143,15 @@ const PageLayout = () => {
                 </div>
 
                 <footer className='footer'>
-                    © Barcha huquqlar himoyalangan.
+                    <p>© Barcha huquqlar himoyalangan.</p>
                     <div className='footer-div'>
                         <p> Sayt yaratuvchisi: </p>
                         <a href='https://www.limon.uz/' target='_blank'>
-                            <img src='src/Images/limon.png' alt='limon image' />
+                            <img
+                                src={limonLogo}
+                                alt='limon image'
+                                className='limon-logotip'
+                            />
                         </a>
                     </div>
                 </footer>
