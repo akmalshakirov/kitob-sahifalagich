@@ -1,14 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import limonLogo from "../Images/limon.png";
+import siteIcon from "../Images/icon.png";
+import printerIcon from "../Images/printer.png";
+import warningIcon from "../Images/warning.png";
 
 const PageLayout = () => {
     const [startPage, setStartPage] = useState("");
     const [endPage, setEndPage] = useState("");
     const [format, setFormat] = useState("book");
     const [isDevToolsOpen, setIsDevToolsOpen] = useState(false);
+    const wrapperRef = useRef(null);
+    const [shapesClasses, setShapesClasses] = useState([
+        "shape1",
+        "shape2",
+        "shape3",
+    ]);
+
+    useEffect(() => {
+        const shapes = document.querySelectorAll(".shape");
+        const wrapperRect = wrapperRef.current.getBoundingClientRect();
+
+        shapes.forEach((shape, index) => {
+            const rect = shape.getBoundingClientRect();
+
+            if (
+                rect.top < wrapperRect.top ||
+                rect.bottom > wrapperRect.bottom ||
+                rect.left < wrapperRect.left ||
+                rect.right > wrapperRect.right
+            ) {
+                setShapesClasses((prev) => {
+                    const newClasses = [...prev];
+                    newClasses[index] += " no-animation";
+                    return newClasses;
+                });
+            }
+        });
+    }, []);
 
     const handleMouseLeave = (e) => {
-        // setIsMouseLeave(true);
         e.classList.add("none-follow");
     };
 
@@ -38,17 +68,16 @@ const PageLayout = () => {
             setCursorPosition({ x: e.clientX, y: e.clientY });
         };
         window.addEventListener("mousemove", updateCursor);
-        // window.addEventListener("mouseleave");
         return () => {
             window.removeEventListener("mousemove", updateCursor);
         };
     }, []);
 
     return (
-        <div className='wrapper'>
-            <div className='shape shape1'></div>
-            <div className='shape shape2'></div>
-            <div className='shape shape3'></div>
+        <div className='wrapper' ref={wrapperRef}>
+            {shapesClasses.map((shapeClass, index) => (
+                <div key={index} className={`shape ${shapeClass}`}></div>
+            ))}
             <div
                 className={`cursor-following ${
                     isDevToolsOpen ? "none-follow" : ""
@@ -65,16 +94,14 @@ const PageLayout = () => {
             <div className='container'>
                 <header className='header'>
                     <h1>
-                        Kitob sahifalagich{" "}
-                        <img src='src/Images/icon.png' alt='icon' />
+                        Kitob sahifalagich <img src={siteIcon} alt='icon' />
                     </h1>
                 </header>
 
                 <div className='form-section'>
                     <div className='printer-icon'>
-                        {/* <button>🖨️</button> */}
                         <button>
-                            <img src='src/Images/printer.png' alt='printer' />
+                            <img src={printerIcon} alt='printer' />
                         </button>
                     </div>
                     <div className='form-inputs'>
@@ -124,7 +151,7 @@ const PageLayout = () => {
                 </div>
 
                 <div className='warning'>
-                    <img src='src/Images/warning.png' alt='warning' />
+                    <img src={warningIcon} alt='warning' />
                     <b>
                         Eslatma: Kitobcha shakliga keltirish uchun sahifalar
                         soni 4 ga bo'linadigan bo'lishi shart!
